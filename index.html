@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Python Runner</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/skulpt/1.0.0/skulpt.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/skulpt/1.0.0/skulpt-stdlib.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    textarea {
+      width: 100%;
+      height: 200px;
+      margin-bottom: 10px;
+    }
+    pre {
+      background: #f4f4f4;
+      padding: 10px;
+      border: 1px solid #ddd;
+      overflow-x: auto;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>Run Python Code</h1>
+  <textarea id="python-code" placeholder="Write your Python code here..."></textarea>
+  <button onclick="runPython()">Run Code</button>
+  <h2>Output:</h2>
+  <pre id="output"></pre>
+
+  <script>
+    function outf(text) {
+      const output = document.getElementById("output");
+      output.textContent += text + "\n";
+    }
+
+    function runPython() {
+      const output = document.getElementById("output");
+      output.textContent = ""; // Clear previous output
+      const code = document.getElementById("python-code").value;
+
+      try {
+        Skulpt.configure({ output: outf });
+        Skulpt.importMainWithBody("<stdin>", false, code, true);
+      } catch (e) {
+        outf(e.toString());
+      }
+    }
+  </script>
+</body>
+</html>
